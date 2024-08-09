@@ -6,6 +6,7 @@ import LoginPage from './screens/LoginPage';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import SpeechText from './screens/SpeechText';
+import SpeakerTest from './screens/SpeakerTest';
 
 
 
@@ -25,6 +26,7 @@ export default function App() {
       <Stack.Navigator initialRouteName={initialRoute!}>
         <Stack.Screen name="LoginPage" component={LoginPage} options={{ headerShown: false }} />
         <Stack.Screen name="SpeechText" component={SpeechText} options={{ headerShown: false }} />
+        <Stack.Screen name="Speaker" component={SpeakerTest} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
