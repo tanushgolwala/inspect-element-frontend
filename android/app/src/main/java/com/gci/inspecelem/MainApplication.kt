@@ -1,4 +1,4 @@
-package com.gci.inspect
+package com.gci.inspecelem
 
 import android.app.Application
 import android.content.res.Configuration

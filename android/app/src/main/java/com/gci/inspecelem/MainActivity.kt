@@ -1,4 +1,4 @@
-package com.gci.inspect
+package com.gci.inspecelem
 
 import android.os.Build
 import android.os.Bundle

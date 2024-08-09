@@ -6,7 +6,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 
 GoogleSignin.configure({
-    webClientId: '1093353768795-cpnii77bepuseh4p3b2q0ibkikgv8k0i.apps.googleusercontent.com',
+    webClientId: '874760723077-kqimrubb1di644vrhl00e7efctjmkhbm.apps.googleusercontent.com',
 });
 
 interface LoginPageProps {

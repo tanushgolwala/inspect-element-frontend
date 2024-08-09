@@ -84,9 +84,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.gci.inspect'
+    namespace 'com.gci.inspecelem'
     defaultConfig {
-        applicationId 'com.gci.inspect'
+        applicationId 'com.gci.inspecelem'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
