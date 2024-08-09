@@ -1,55 +1,32 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
-import Voice, { SpeechResultsEvent, SpeechErrorEvent } from '@react-native-voice/voice';
+import { firebase } from '@react-native-firebase/auth';
+import LoginPage from './screens/LoginPage';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import SpeechText from './screens/SpeechText';
+
+
+
+const Stack = createStackNavigator();
 
 export default function App() {
-  const [started, setStarted] = useState<boolean>(false);
-  const [results, setResults] = useState<string[]>([]);
+  const [initialRoute, setInitialRoute] = useState<string>("LoginPage");
 
   useEffect(() => {
-    Voice.onSpeechError = onSpeechError;
-    Voice.onSpeechResults = onSpeechResults;
-    return () => {
-      Voice.destroy().then(Voice.removeAllListeners);
-    };
+    const user = firebase.auth().currentUser;
+    if (user) {
+      setInitialRoute("SpeechText");
+    }
   }, []);
-
-  const startSpeechToText = async () => {
-    try {
-      await Voice.start("en-NZ");
-      setStarted(true);
-    } catch (error) {
-      console.error("Error starting speech recognition:", error);
-    }
-  };
-
-  const stopSpeechToText = async () => {
-    try {
-      await Voice.stop();
-      setStarted(false);
-    } catch (error) {
-      console.error("Error stopping speech recognition:", error);
-    }
-  };
-
-  const onSpeechResults = (event: SpeechResultsEvent) => {
-    setResults(event.value ?? []);
-  };
-
-  const onSpeechError = (event: SpeechErrorEvent) => {
-    console.error("Speech recognition error:", event.error);
-  };
-
   return (
-    <View style={styles.container}>
-      {!started ? <Button title="Start Speech to Text" onPress={startSpeechToText} /> : undefined}
-      {started ? <Button title="Stop Speech to Text" onPress={stopSpeechToText} /> : undefined}
-      {results.map((result, index) => (
-        <Text key={index}>{result}</Text>
-      ))}
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName={initialRoute!}>
+        <Stack.Screen name="LoginPage" component={LoginPage} options={{ headerShown: false }} />
+        <Stack.Screen name="SpeechText" component={SpeechText} options={{ headerShown: false }} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
