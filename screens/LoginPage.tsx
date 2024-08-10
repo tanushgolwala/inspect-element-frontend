@@ -1,6 +1,6 @@
 import { GoogleSignin, User as GoogleUser, statusCodes } from '@react-native-google-signin/google-signin';
-import { useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity, Image, Animated } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { StackNavigationProp } from '@react-navigation/stack';
 
@@ -15,6 +15,22 @@ interface LoginPageProps {
 
 const LoginPage: React.FC<LoginPageProps> = ({ navigation }) => {
     const [loading, setLoading] = useState<boolean>(false);
+    const rotateAnim = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        Animated.loop(
+            Animated.timing(rotateAnim, {
+                toValue: 1,
+                duration: 4000, // 2 seconds for the rotation
+                useNativeDriver: true,
+            })
+        ).start();
+    }, [rotateAnim]);
+
+    const rotate = rotateAnim.interpolate({
+        inputRange: [0, 0.5, 1],
+        outputRange: ['-90deg', '0deg', '-90deg'],
+    });
     async function onGoogleButtonPress() {
         try {
             setLoading(true);
@@ -48,7 +64,12 @@ const LoginPage: React.FC<LoginPageProps> = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Text>Open up App.tsx to start working on your app!</Text>
+            <Animated.Image
+                source={require('../assets/signin_gear.png')}
+                style={[styles.gearIcon, { transform: [{ rotate }] }]}
+            />
+            <Text style={styles.mainText}>Your <Text style={{ color: "#FFC400" }}>AI</Text> Powered</Text>
+            <Text style={styles.boldText}>Inspection Assistant</Text>
             <TouchableOpacity style={styles.googleButton} onPress={onGoogleButtonPress}>
                 <Image
                     style={styles.googleIcon}
@@ -75,18 +96,25 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontFamily: 'Roboto',
         marginLeft: '4.2%',
-        color: 'white',
+        color: 'black',
+        textAlign: 'center',
+    },
+    gearIcon: {
+        width: 150, // Adjust size if needed
+        height: 150, // Adjust size if needed
     },
     googleButton: {
         textAlign: 'center',
+        justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
-        borderRadius: 50,
+        borderRadius: 13,
         borderColor: 'white',
-        width: '85%',
-        height: '10%',
+        backgroundColor: "white",
+        width: '70%',
+        height: '7%',
         flexDirection: 'row',
-        marginTop: '20%',
+        marginTop: '5%',
         paddingHorizontal: 15,
     },
     googleIcon: {
@@ -94,6 +122,18 @@ const styles = StyleSheet.create({
         width: 30,
         marginLeft: 10,
     },
+    mainText: {
+        color: 'white',
+        fontSize: 30,
+        fontFamily: 'Roboto',
+        marginTop: '10%',
+    },
+    boldText: {
+        color: 'white',
+        fontSize: 30,
+        fontWeight: 'bold',
+        fontFamily: 'Roboto',
+    }
 });
 
 export default LoginPage;

@@ -23,6 +23,8 @@ export default function App() {
     }
   }, []);
   return (
+    // <SpeakerTest />
+    // <DetectObjectsScreen />
     <NavigationContainer>
       <Stack.Navigator initialRouteName={initialRoute!}>
         <Stack.Screen name="LoginPage" component={LoginPage} options={{ headerShown: false }} />
